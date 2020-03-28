@@ -23,6 +23,9 @@ yarn-error.log*
 
 be-the-hero-api/readme.txt
 be-the-hero-front/readme.txt
+be-the-hero-mobile/readme.txt
 
 be-the-hero-api/node_modules
 be-the-hero-front/node_modules
+
+be-the-hero-api/src/database/db.sqlite
