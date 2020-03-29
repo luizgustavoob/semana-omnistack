@@ -48,6 +48,26 @@ routes.get('/incidents', celebrate({
   })
 }), IncidentController.findAll);
 
+routes.put('/incidents/:id', celebrate({
+  [Segments.HEADERS]: Joi.object({
+    authorization: Joi.string().required()
+  }).unknown(),
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.number().required()
+  }),
+  [Segments.BODY]: Joi.object().keys({
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    value: Joi.number().required()
+  })
+}), IncidentController.update);
+
+routes.get('/incidents/:id', celebrate({
+  [Segments.PARAMS]: Joi.object().keys({
+    id: Joi.number().required()
+  })
+}), IncidentController.findById);
+
 routes.delete('/incidents/:id', celebrate({
   [Segments.PARAMS]: Joi.object().keys({
     id: Joi.number().required()

@@ -1,13 +1,14 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import Routes from './routes';
-import Header from './pages/Header';
+import 'react-toastify/dist/ReactToastify.min.css'; 
 import './global.css'
 
 export default function App() {
   return (
     <div>
-      <Header></Header>
-      <Routes></Routes>
+      <ToastContainer autoClose={3000}/>
+      <Routes />
     </div>
   );
 }

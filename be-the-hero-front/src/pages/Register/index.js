@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 import './styles.css';
@@ -20,10 +21,10 @@ export default function Register() {
     const data = {name, email, whatsapp, city, uf};    
     api.post('ongs', data)
       .then(response => {
-        alert(`Sua ID de acesso: ${response.data.id}`)
+        toast.success(`Cadastro concluído com sucesso. Sua ID de acesso: ${response.data.id}`);
         history.push('/');
       })
-      .catch(err => alert('Erro no cadastro'));
+      .catch(() => toast.error('Erro no cadastro da ONG. Tente novamente.'));
   }
 
   return (

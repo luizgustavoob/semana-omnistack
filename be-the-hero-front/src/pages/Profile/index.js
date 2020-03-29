@@ -4,16 +4,17 @@ import api from '../../services/api';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import logoImg from '../../assets/logo.svg'
 import './styles.css';
+import { toast } from 'react-toastify';
 
 export default function Profile() {
+  
+  const history = useHistory();
 
   const ongId = localStorage.getItem('ongId');
   const ongName = localStorage.getItem('ongName');
 
   //semelhante ao setState em componentes de classe
   const [incidents, setIncidents] = useState([]);
-
-  const history = useHistory();
 
   // executa a função de callback sempre que algo no componente mudar 
   // (nesse caso, sempre que a ongId mudar e no primeiro carregamento)
@@ -33,9 +34,10 @@ export default function Profile() {
         }
       });
       setIncidents(incidents.filter(i => i.id !== id));
-      alert('Caso deletado com sucesso.');
+      toast.success('Caso removido com sucesso.');
     } catch(err) {
-      alert(`Erro ao deletar o caso. ${err}`);
+      console.log('Erro ao remover o caso', err);
+      toast.error('Erro ao remover o caso. Tente novamente.');
     }
   }
 
@@ -43,6 +45,10 @@ export default function Profile() {
     localStorage.removeItem('ongId');
     localStorage.removeItem('ongName');
     history.push('/');
+  }
+
+  function handleClickIncident(incident) {
+    history.push(`incidents/${incident.id}`);
   }
 
   return (
@@ -60,7 +66,7 @@ export default function Profile() {
 
       <ul>
         {incidents.map(incident => (
-          <li key={incident.id}>
+          <li key={incident.id} onClick={() => handleClickIncident(incident)}>
             <strong>Caso:</strong>
             <p>{incident.title}</p>
 

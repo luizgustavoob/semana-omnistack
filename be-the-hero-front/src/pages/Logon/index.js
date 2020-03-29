@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory} from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import api from '../../services/api';
 import heroesImg from '../../assets/heroes.png';
 import logoImg from '../../assets/logo.svg';
@@ -8,9 +9,8 @@ import './styles.css';
 
 export default function Logon() {
 
-  const [id, setId] = useState('');
-
   const history = useHistory();
+  const [id, setId] = useState('');
 
   function handleLogin(event) {
     event.preventDefault();
@@ -21,7 +21,7 @@ export default function Logon() {
         localStorage.setItem('ongName', response.data.name);
         history.push('/profile');
       })
-      .catch(() => alert('Informe uma ID válida.'))
+      .catch(() => toast.error('Informe uma ID válida.'));
   }
 
   return (
