@@ -44,8 +44,8 @@ export default function Incident() {
           Authorization: ongId
         }
       })
-      .then(() => successPostOrPut())
-      .catch((err) => catchErrorPostOrPut(err));
+      .then(() => _successPostOrPut())
+      .catch((err) => _successPostOrPut(err));
     } else {
       api.post('incidents', data, {
         headers: {
