@@ -1,7 +1,7 @@
 const connection = require('../database/connection');
 
 module.exports = {
-  
+
   async insert(request, response) {
     const { title, description, value } = request.body;
     const ong_id = request.headers.authorization;
@@ -13,13 +13,13 @@ module.exports = {
     const { id } = request.params;
     const ong_id = request.headers.authorization;
     const { title, description, value } = request.body;
-    
+
     const incident = await connection('incidents').where('id', id).select('ong_id').first();
-    
+
     if (incident.ong_id !== ong_id) {
       return response.status(401).json({error: 'Operation not permitted.'});
     }
-    
+
     const incidentUpdated = await connection('incidents').where('id', id).update({title, description, value});
     return response.json(incidentUpdated);
   },
@@ -43,9 +43,9 @@ module.exports = {
   async delete(request, response) {
     const { id } = request.params;
     const ong_id = request.headers.authorization;
-    
+
     const incident = await connection('incidents').where('id', id).select('ong_id').first();
-    
+
     if (incident.ong_id !== ong_id) {
       return response.status(401).json({error: 'Operation not permitted.'});
     }
@@ -56,13 +56,13 @@ module.exports = {
   async findById(request, response) {
     const { id } = request.params;
     const ong_id = request.headers.authorization;
-    
+
     const incident = await connection('incidents').where('id', id).select('*').first();
-    
+
     if (incident.ong_id !== ong_id) {
       return response.status(401).json({error: 'Operation not permitted.'});
     }
-    
+
     return response.json(incident);
   }
 }

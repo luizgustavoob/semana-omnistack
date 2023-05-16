@@ -13,18 +13,19 @@ A aplicação foi dividida em 3 projetos, sendo uma API no back-end para persist
 * [React Router Dom](https://github.com/ReactTraining/react-router)
 * [Axios](https://github.com/axios/axios)
 * [React Toastify](https://github.com/fkhadra/react-toastify)
-* [React Native](https://reactnative.dev/)
-* [Expo](https://expo.io/)
 
 ## Pré-requisitos
 * [Node.js](https://nodejs.org/en/)
 
 ## Execução
-Após baixar/clonar o repositório, acesse as pastas do projeto separadamente via terminal e execute 
+
+Após baixar/clonar o repositório, acesse as pastas do projeto separadamente via terminal e execute
 ```
   npm install
 ```
-para que as dependências sejam baixadas. 
+para que as dependências sejam baixadas.
+
+</br>
 
 ### Execução API
 Deve-se acessar o diretório *be-the-hero-api* via terminal e executar
@@ -33,17 +34,11 @@ Deve-se acessar o diretório *be-the-hero-api* via terminal e executar
 ```
 e o servidor estará disponível na porta 3333.
 
+</br>
+
 ### Execução front-end
 Acesse o diretório *be-the-hero-front* via terminal e execute
 ```
   npm start
 ```
 e a aplicação será aberta no navegador.
-
-### Execução mobile
-Inicialmente, deve-se realizar o download do aplicativo **Expo** na loja virtual do aparelho celular (app store, play store, etc).
-Com o aplicativo instalado, no PC deve-se acessar o diretório *be-the-hero-mobile* via terminal e executar
-```
-  npm start
-```
-e uma página será aberta no navegador. Nessa página ficará disponível um QR-code, que deverá ser scaneado pela câmera do aparelho celular. Feito isso, o Expo abrirá a aplicação.

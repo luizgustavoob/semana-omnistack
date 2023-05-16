@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 import './styles.css';
 
-export default function Register() {
-
-  const history = useHistory();
+const Register = () => {
+  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,15 +15,16 @@ export default function Register() {
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
 
-  function handleRegister(event) {
+  const handleRegister = async (event) => {
     event.preventDefault();
-    const data = {name, email, whatsapp, city, uf};    
-    api.post('ongs', data)
-      .then(response => {
-        toast.success(`Cadastro concluído com sucesso. Sua ID de acesso: ${response.data.id}`);
-        history.push('/');
-      })
-      .catch(() => toast.error('Erro no cadastro da ONG. Tente novamente.'));
+
+    try {
+      const res = await api.post('ongs', { name, email, whatsapp, city, uf })
+      toast.success(`Cadastro concluído com sucesso. Sua ID de acesso: ${res.data.id}`)
+      navigate('/')
+    } catch {
+      toast.error('Erro no cadastro da ONG. Tente novamente.')
+    }
   }
 
   return (
@@ -41,19 +41,19 @@ export default function Register() {
             Não tenho cadastro
           </Link>
         </section>
-        
+
         <form onSubmit={handleRegister}>
-          <input type="text" placeholder="Nome da ONG" 
+          <input type="text" placeholder="Nome da ONG"
             value={name} onChange={e => setName(e.target.value)}/>
-          <input type="email" placeholder="E-mail" 
+          <input type="email" placeholder="E-mail"
             value={email} onChange={e => setEmail(e.target.value)}/>
-          <input type="text" placeholder="WhatsApp" 
+          <input type="text" placeholder="WhatsApp"
             value={whatsapp} onChange={e => setWhatsapp(e.target.value)}/>
 
           <div className="input-group">
-            <input type="text" placeholder="Cidade" 
+            <input type="text" placeholder="Cidade"
               value={city} onChange={e => setCity(e.target.value)}/>
-            <input type="text" placeholder="UF" style={{width: 80}} 
+            <input type="text" placeholder="UF" style={{width: 80}}
               value={uf} onChange={e => setUf(e.target.value)}/>
           </div>
 
@@ -63,3 +63,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default Register
