@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 import './styles.css';
 
-export default function Incident() {
+const Incident = () => {
   const ongId = localStorage.getItem('ongId');
-  
+
   const params = useParams();
-  const history = useHistory();
-  
+  const navigate = useNavigate();
+
   const [id, setId] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -33,19 +33,19 @@ export default function Incident() {
     }
   }, [params])
 
-  function handleSave(event) {
+  const handleSave = (event) => {
     event.preventDefault();
 
     const data = {title, description, value};
 
-    if (id) {      
+    if (id) {
       api.put(`incidents/${id}`, data, {
         headers: {
           Authorization: ongId
         }
       })
       .then(() => _successPostOrPut())
-      .catch((err) => _successPostOrPut(err));
+      .catch(() => _catchErrorPostOrPut());
     } else {
       api.post('incidents', data, {
         headers: {
@@ -53,17 +53,16 @@ export default function Incident() {
         }
       })
       .then(() => _successPostOrPut())
-      .catch((err) => _catchErrorPostOrPut(err));
-    }        
+      .catch(() => _catchErrorPostOrPut());
+    }
   }
 
-  function _successPostOrPut() {
+  const _successPostOrPut = () => {
     toast.success('Caso salvo com sucesso.');
-    history.push('/profile');
+    navigate('/profile');
   }
 
-  function _catchErrorPostOrPut(err) {
-    console.log('Erro ao cadastrar o caso', err);
+  const _catchErrorPostOrPut = () => {
     toast.error('Erro ao cadastrar o caso. Tente novamente.');
   }
 
@@ -81,12 +80,12 @@ export default function Incident() {
             Voltar para Home
           </Link>
         </section>
-        
+
         <form onSubmit={handleSave}>
           <input type="text" placeholder="Título do caso"
             value={title} onChange={e => setTitle(e.target.value)}/>
           <textarea placeholder="Descrição"
-            value={description} onChange={e => setDescription(e.target.value)}></textarea>    
+            value={description} onChange={e => setDescription(e.target.value)}></textarea>
           <input type="text" placeholder="Valor em Reais"
             value={value} onChange={e => setValue(e.target.value)}/>
 
@@ -96,3 +95,5 @@ export default function Incident() {
     </div>
   );
 }
+
+export default Incident

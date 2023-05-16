@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
@@ -7,21 +7,21 @@ import heroesImg from '../../assets/heroes.png';
 import logoImg from '../../assets/logo.svg';
 import './styles.css';
 
-export default function Logon() {
-
-  const history = useHistory();
+const Logon = () => {
+  const navigate = useNavigate();
   const [id, setId] = useState('');
 
-  function handleLogin(event) {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    api.post('sessions', {id})
-      .then(response => {
-        console.log(response.data.name);
-        localStorage.setItem('ongId', id);
-        localStorage.setItem('ongName', response.data.name);
-        history.push('/profile');
-      })
-      .catch(() => toast.error('Informe uma ID válida.'));
+
+    try {
+      const res = await api.post('sessions', { id })
+      localStorage.setItem('ongId', id)
+      localStorage.setItem('ongName', res.data.name)
+      navigate('/profile')
+    } catch {
+      toast.error('Informe uma ID válida.')
+    }
   }
 
   return (
@@ -31,7 +31,7 @@ export default function Logon() {
 
         <form onSubmit={handleLogin}>
           <h1>Faça seu Logon</h1>
-          <input type="text" placeholder="Sua ID" 
+          <input type="text" placeholder="Sua ID"
             value={id} onChange={e => setId(e.target.value)}/>
           <button className="button" type="submit">Entrar</button>
 
@@ -40,9 +40,11 @@ export default function Logon() {
             Não tenho cadastro
           </Link>
         </form>
-      </section>      
+      </section>
 
       <img src={heroesImg} alt="Heroes"/>
     </div>
   );
 }
+
+export default Logon

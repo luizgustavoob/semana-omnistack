@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import logoImg from '../../assets/logo.svg'
 import './styles.css';
 import { toast } from 'react-toastify';
 
-export default function Profile() {
-  
-  const history = useHistory();
+const Profile = () => {
+  const navigate = useNavigate();
 
   const ongId = localStorage.getItem('ongId');
   const ongName = localStorage.getItem('ongName');
@@ -16,7 +15,7 @@ export default function Profile() {
   //semelhante ao setState em componentes de classe
   const [incidents, setIncidents] = useState([]);
 
-  // executa a função de callback sempre que algo no componente mudar 
+  // executa a função de callback sempre que algo no componente mudar
   // (nesse caso, sempre que a ongId mudar e no primeiro carregamento)
   useEffect(() => {
     api.get('profile', {
@@ -26,7 +25,7 @@ export default function Profile() {
     }).then(response => setIncidents(response.data))
   }, [ongId]);
 
-  async function handleDeleteIncident(id) {
+  const handleDeleteIncident = async (id) => {
     try {
       await api.delete(`incidents/${id}`, {
         headers: {
@@ -36,19 +35,18 @@ export default function Profile() {
       setIncidents(incidents.filter(i => i.id !== id));
       toast.success('Caso removido com sucesso.');
     } catch(err) {
-      console.log('Erro ao remover o caso', err);
       toast.error('Erro ao remover o caso. Tente novamente.');
     }
   }
 
-  function handleLogout() {
+  const handleLogout = () => {
     localStorage.removeItem('ongId');
     localStorage.removeItem('ongName');
-    history.push('/');
+    navigate('/');
   }
 
-  function handleClickIncident(incident) {
-    history.push(`incidents/${incident.id}`);
+  const handleClickIncident = (incident) => {
+    navigate(`/incidents/${incident.id}`);
   }
 
   return (
@@ -61,7 +59,7 @@ export default function Profile() {
           <FiPower size={18} color="#E02041"/>
         </button>
       </header>
-      
+
       <h1>Casos cadastrados</h1>
 
       <ul>
@@ -81,7 +79,9 @@ export default function Profile() {
             </button>
           </li>
         ))}
-      </ul>      
+      </ul>
     </div>
   );
 }
+
+export default Profile
